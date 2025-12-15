@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import koinLogo from '../assets/koin-logo.png';
-import backgroundImage from '../assets/background.jpeg';
+import backgroundImage from '../assets/university-students.jpg';
 import { Shield, Landmark } from 'lucide-react';
 
 const LandingPage = () => {
@@ -31,11 +30,11 @@ const LandingPage = () => {
 
       {/* Content */}
       <div style={{ position: 'relative', zIndex: 2, minHeight: '100vh', display: 'flex', alignItems: 'center', padding: '0 8%' }}>
-        <div style={{ maxWidth: '50%' }}>
+        <div>
           {/* Logo Row */}
           <div style={{ display: 'flex', alignItems: 'center', marginBottom: '48px' }}>
             <div style={{ background: '#002147', padding: '8px', borderRadius: '8px', marginRight: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <img src={koinLogo} alt="Koin Logo" style={{ height: '32px', width: '32px' }} />
+              <img src="/koin-logo.png" alt="Koin Logo" style={{ height: '32px', width: '32px' }} />
             </div>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
               <span style={{ fontSize: '2rem', fontWeight: 'bold', color: 'white', lineHeight: 1.1 }}>Koin</span>
