@@ -1,155 +1,241 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import backgroundImage from '../assets/university-students.jpg';
-import { Shield, Landmark } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Shield, Landmark, BookOpen, Users, Zap, ArrowRight, CheckCircle } from 'lucide-react';
 
 const LandingPage = () => {
   const [loginHover, setLoginHover] = useState(false);
   const [learnMoreHover, setLearnMoreHover] = useState(false);
 
+  const features = [
+    { icon: BookOpen, title: 'Smart Study Resources', desc: 'Access curated materials from top students' },
+    { icon: Users, title: 'Collaborative Learning', desc: 'Connect with peers in your courses' },
+    { icon: Zap, title: 'AI-Powered Insights', desc: 'Get personalized study recommendations' },
+  ];
+
+  const stats = [
+    { value: '10K+', label: 'Active Students' },
+    { value: '500+', label: 'Courses Covered' },
+    { value: '98%', label: 'Satisfaction Rate' },
+  ];
+
   return (
-    <div style={{ minHeight: '100vh', width: '100vw', position: 'relative', overflow: 'hidden', background: '#002147' }}>
-      {/* Background Image */}
-      <img
-        src={backgroundImage}
-        alt="Academic collaboration background"
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-          zIndex: 0,
-          opacity: 0.5
-        }}
-        draggable="false"
-      />
-      {/* Overlay */}
-      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0, 33, 71, 0.1)', zIndex: 1 }} />
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
-      {/* Header */}
-      <header style={{ position: 'absolute', top: 0, left: 0, width: '100%', zIndex: 10, padding: '1.5rem 8%'}}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          <img
-            src="/koin-logo.png"
-            alt="Koin Logo"
-            style={{ height: '3rem' }}
-          />
+    <div style={{ minHeight: '100vh', width: '100vw', background: 'linear-gradient(135deg, #002147 0%, #003366 50%, #002147 100%)' }}>
+      <header style={{ position: 'fixed', top: 0, left: 0, width: '100%', zIndex: 50, padding: '1rem 5%', background: 'rgba(0, 33, 71, 0.9)', backdropFilter: 'blur(10px)', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <img src="/koin-logo.png" alt="Koin Logo" style={{ height: '2.5rem' }} />
+          <nav style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
+            <Link to="/learn-more" style={{ color: 'white', textDecoration: 'none', fontSize: '0.95rem', opacity: 0.9 }}>About</Link>
+            <Link to="/plans" style={{ color: 'white', textDecoration: 'none', fontSize: '0.95rem', opacity: 0.9 }}>Plans</Link>
+            <Link to="/login">
+              <button style={{ background: '#FFC72C', color: '#002147', fontWeight: 600, padding: '10px 24px', borderRadius: '6px', border: 'none', cursor: 'pointer', fontSize: '0.95rem' }}>
+                Sign In
+              </button>
+            </Link>
+          </nav>
         </div>
       </header>
 
-      {/* Content */}
-      <div style={{ position: 'relative', zIndex: 2, minHeight: '100vh', display: 'flex', alignItems: 'center', padding: '0 8%' }}>
-        <div>
-          {/* Headline */}
-          <div style={{ marginBottom: '24px' }}>
-            <div style={{ fontSize: '3.75rem', fontWeight: 'bold', color: 'white', lineHeight: 1.2 }}>Welcome</div>
-            <div style={{ fontSize: '3.75rem', fontWeight: 'bold', color: 'white', lineHeight: 1.2 }}>to Your</div>
-            <div style={{ fontSize: '4.5rem', fontWeight: 800, color: '#52C5FF', lineHeight: 1.2 }}>Academic Hub</div>
-          </div>
-
-          {/* Subheading */}
-          <div style={{ marginBottom: '40px' }}>
-            <div style={{ fontSize: '1.25rem', color: 'white', lineHeight: 1.5, opacity: 0.9 }}>
-              A Sanctioned Space
-              <br />
-              for Smarter Study
+      <section style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', padding: '120px 5% 80px' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', alignItems: 'center', width: '100%' }}>
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <div style={{ display: 'inline-block', background: 'rgba(82, 197, 255, 0.15)', borderRadius: '50px', padding: '8px 20px', marginBottom: '1.5rem' }}>
+              <span style={{ color: '#52C5FF', fontSize: '0.875rem', fontWeight: 600 }}>Version 2.0 is here</span>
             </div>
-          </div>
+            
+            <h1 style={{ fontSize: '3.5rem', fontWeight: 800, color: 'white', lineHeight: 1.1, marginBottom: '1.5rem' }}>
+              Your <span style={{ color: '#52C5FF' }}>Academic Hub</span> for Smarter Study
+            </h1>
+            
+            <p style={{ fontSize: '1.25rem', color: 'white', opacity: 0.8, lineHeight: 1.6, marginBottom: '2rem', maxWidth: '500px' }}>
+              A sanctioned space where students collaborate, share knowledge, and excel together. University verified. Always secure.
+            </p>
 
-          {/* CTA Buttons */}
-          <div style={{ display: 'flex', flexDirection: 'row', gap: '16px', marginBottom: '48px' }}>
+            <div style={{ display: 'flex', gap: '1rem', marginBottom: '2.5rem' }}>
+              <Link to="/login">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onMouseEnter={() => setLoginHover(true)}
+                  onMouseLeave={() => setLoginHover(false)}
+                  style={{
+                    background: loginHover ? '#FFD966' : '#FFC72C',
+                    color: '#002147',
+                    fontWeight: 700,
+                    padding: '16px 32px',
+                    borderRadius: '8px',
+                    fontSize: '1rem',
+                    border: 'none',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    transition: 'background 0.2s'
+                  }}
+                >
+                  Get Started Free <ArrowRight size={18} />
+                </motion.button>
+              </Link>
+              <Link to="/learn-more">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onMouseEnter={() => setLearnMoreHover(true)}
+                  onMouseLeave={() => setLearnMoreHover(false)}
+                  style={{
+                    border: '2px solid rgba(255,255,255,0.3)',
+                    color: learnMoreHover ? '#002147' : 'white',
+                    fontWeight: 600,
+                    padding: '16px 32px',
+                    borderRadius: '8px',
+                    fontSize: '1rem',
+                    background: learnMoreHover ? 'white' : 'transparent',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s'
+                  }}
+                >
+                  Learn More
+                </motion.button>
+              </Link>
+            </div>
+
+            <div style={{ display: 'flex', gap: '2rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Shield color="#52C5FF" size={18} />
+                <span style={{ color: 'white', fontSize: '0.875rem', opacity: 0.8 }}>Secure & Private</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Landmark color="#52C5FF" size={18} />
+                <span style={{ color: 'white', fontSize: '0.875rem', opacity: 0.8 }}>University Verified</span>
+              </div>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            style={{ display: 'flex', justifyContent: 'center' }}
+          >
+            <div style={{ 
+              background: 'linear-gradient(145deg, rgba(82, 197, 255, 0.1), rgba(255, 199, 44, 0.05))',
+              borderRadius: '24px',
+              padding: '3rem',
+              border: '1px solid rgba(255,255,255,0.1)',
+              backdropFilter: 'blur(10px)',
+              width: '100%',
+              maxWidth: '450px'
+            }}>
+              <div style={{ marginBottom: '2rem' }}>
+                <h3 style={{ color: 'white', fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.5rem' }}>Why Students Love Koin</h3>
+                <p style={{ color: 'white', opacity: 0.7, fontSize: '0.95rem' }}>Join thousands already studying smarter</p>
+              </div>
+              {features.map((feature, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 + index * 0.1 }}
+                  style={{ 
+                    display: 'flex', 
+                    gap: '1rem', 
+                    padding: '1rem',
+                    background: 'rgba(255,255,255,0.05)',
+                    borderRadius: '12px',
+                    marginBottom: '0.75rem'
+                  }}
+                >
+                  <div style={{ 
+                    width: '44px', 
+                    height: '44px', 
+                    background: 'rgba(82, 197, 255, 0.2)', 
+                    borderRadius: '10px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0
+                  }}>
+                    <feature.icon color="#52C5FF" size={22} />
+                  </div>
+                  <div>
+                    <h4 style={{ color: 'white', fontSize: '1rem', fontWeight: 600, marginBottom: '4px' }}>{feature.title}</h4>
+                    <p style={{ color: 'white', opacity: 0.7, fontSize: '0.875rem' }}>{feature.desc}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      <section style={{ padding: '80px 5%', background: 'rgba(0,0,0,0.2)' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2rem' }}
+          >
+            {stats.map((stat, index) => (
+              <div key={index} style={{ textAlign: 'center', padding: '2rem' }}>
+                <div style={{ fontSize: '3rem', fontWeight: 800, color: '#FFC72C', marginBottom: '0.5rem' }}>{stat.value}</div>
+                <div style={{ color: 'white', opacity: 0.8, fontSize: '1rem' }}>{stat.label}</div>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      <section style={{ padding: '80px 5%' }}>
+        <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2 style={{ fontSize: '2.5rem', fontWeight: 700, color: 'white', marginBottom: '1rem' }}>
+              Ready to Study <span style={{ color: '#52C5FF' }}>Smarter</span>?
+            </h2>
+            <p style={{ color: 'white', opacity: 0.8, fontSize: '1.125rem', marginBottom: '2rem' }}>
+              Join your university peers and start collaborating today.
+            </p>
             <Link to="/login">
-              <button
-                onMouseEnter={() => setLoginHover(true)}
-                onMouseLeave={() => setLoginHover(false)}
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 style={{
-                  background: loginHover ? '#FFD966' : '#FFC72C',
+                  background: '#FFC72C',
                   color: '#002147',
-                  fontWeight: 'bold',
-                  padding: '14px 36px',
+                  fontWeight: 700,
+                  padding: '18px 48px',
                   borderRadius: '8px',
                   fontSize: '1.125rem',
                   border: 'none',
                   cursor: 'pointer',
-                  transition: 'background 0.2s'
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px'
                 }}
               >
-                Login with University SSO
-              </button>
+                Get Started Free <ArrowRight size={20} />
+              </motion.button>
             </Link>
-            <Link to="/learn-more">
-              <button
-                onMouseEnter={() => setLearnMoreHover(true)}
-                onMouseLeave={() => setLearnMoreHover(false)}
-                style={{
-                  border: '2px solid white',
-                  color: learnMoreHover ? '#002147' : 'white',
-                  fontWeight: 'bold',
-                  padding: '14px 36px',
-                  borderRadius: '8px',
-                  fontSize: '1.125rem',
-                  background: learnMoreHover ? 'white' : 'transparent',
-                  cursor: 'pointer',
-                  transition: 'background 0.2s, color 0.2s'
-                }}
-              >
-                Learn More
-              </button>
-            </Link>
-          </div>
-
-          {/* Footer Icons */}
-          <div style={{ display: 'flex', gap: '24px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Shield color="white" size={20} style={{ opacity: 0.8 }} />
-              <span style={{ color: 'white', fontSize: '0.875rem', fontWeight: 500, opacity: 0.8 }}>Secure & Private</span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Landmark color="white" size={20} style={{ opacity: 0.8 }} />
-              <span style={{ color: 'white', fontSize: '0.875rem', fontWeight: 500, opacity: 0.8 }}>University Verified</span>
-            </div>
-          </div>
+          </motion.div>
         </div>
-      </div>
+      </section>
+
+      <footer style={{ padding: '2rem 5%', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <img src="/koin-logo.png" alt="Koin Logo" style={{ height: '2rem', opacity: 0.8 }} />
+          <p style={{ color: 'white', opacity: 0.6, fontSize: '0.875rem' }}>© 2024 Koin. A sanctioned space for smarter study.</p>
+        </div>
+      </footer>
     </div>
   );
-};
-
-const styles = {
-  header: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    padding: '16px 8%',
-    display: 'flex',
-    alignItems: 'center',
-    zIndex: 2,
-  },
-  headerContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: '100%',
-  },
-  logoContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '8px',
-  },
-  logoImage: {
-    width: '2.5rem',
-    height: '2.5rem',
-    borderRadius: '0.75rem',
-  },
-  logoTitle: {
-    fontSize: '1.5rem',
-    fontWeight: 'bold',
-    color: 'white',
-    lineHeight: 1.2,
-  },
 };
 
 export default LandingPage;
