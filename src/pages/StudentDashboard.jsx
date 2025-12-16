@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BookOpen, Upload, LogOut } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const PointsBadge = ({ points }) => (
   <div style={styles.pointsBadge}>
@@ -115,17 +116,11 @@ export default function StudentDashboard() {
     <div style={styles.container}>
       {/* Header */}
       <header style={styles.header}>
-        <div style={styles.headerInner}>
+        <div style={styles.headerContainer}>
           <div style={styles.logoContainer}>
-            <div style={styles.logoIconContainer}>
-              <BookOpen style={styles.logoIcon} />
-            </div>
-            <div>
-              <h1 style={styles.logoTitle}>Koin</h1>
-              <p style={styles.logoSubtitle}>Academic Collaboration</p>
-            </div>
+            <img src="/koin-logo.png" alt="Koin Logo" style={styles.logoImage} />
+            <h1 style={styles.logoTitle}>Student Dashboard</h1>
           </div>
-
 
           <div style={styles.headerRight}>
             <PointsBadge points={points} />
@@ -195,7 +190,7 @@ const styles = {
     top: 0,
     zIndex: 50,
   },
-  headerInner: {
+  headerContainer: {
     maxWidth: '80rem',
     margin: 'auto',
     padding: '1rem 1.5rem',
@@ -208,19 +203,10 @@ const styles = {
     alignItems: 'center',
     gap: '0.75rem',
   },
-  logoIconContainer: {
+  logoImage: {
     width: '2.5rem',
     height: '2.5rem',
-    backgroundColor: '#002147',
     borderRadius: '0.75rem',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  logoIcon: {
-    width: '1.25rem',
-    height: '1.25rem',
-    color: '#56C1E8',
   },
   logoTitle: {
     fontSize: '1.25rem',

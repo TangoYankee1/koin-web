@@ -1,5 +1,6 @@
 import React from 'react';
-import { BookOpen, Users, FileUp, LogOut } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { BookOpen, Users, FileUp, LogOut, Gem } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 
 const KPICard = ({ title, value, icon: Icon, trend }) => {
@@ -145,9 +146,17 @@ export default function AdminDashboard() {
               <p style={styles.logoSubtitle}>Admin Portal</p>
             </div>
           </div>
-          <button onClick={handleLogout} style={styles.logoutButton}>
-            <LogOut style={styles.logoutIcon} />
-          </button>
+          <div style={{display: "flex", alignItems: "center"}}>
+            <Link to="/plans">
+              <button style={styles.upgradeButton}>
+                <Gem style={styles.upgradeIcon} />
+                Upgrade
+              </button>
+            </Link>
+            <button onClick={handleLogout} style={styles.logoutButton}>
+              <LogOut style={styles.logoutIcon} />
+            </button>
+          </div>
         </div>
       </header>
 
@@ -229,6 +238,23 @@ const styles = {
   logoutIcon: {
     width: '1.25rem',
     height: '1.25rem',
+  },
+  upgradeButton: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.5rem',
+    backgroundColor: '#FFF7ED',
+    color: '#FB923C',
+    border: '1px solid #FED7AA',
+    borderRadius: '0.5rem',
+    padding: '0.5rem 1rem',
+    fontWeight: '600',
+    cursor: 'pointer',
+    transition: 'all 0.2s ease-in-out',
+  },
+  upgradeIcon: {
+    width: '1rem',
+    height: '1rem',
   },
   main: {
     maxWidth: '80rem',
@@ -359,5 +385,10 @@ const styles = {
     padding: '0.75rem',
     borderBottom: '1px solid #F1F5F9',
     fontSize: '0.875rem',
+  },
+  logoImage: {
+    width: '2.5rem',
+    height: '2.5rem',
+    borderRadius: '0.75rem',
   },
 };

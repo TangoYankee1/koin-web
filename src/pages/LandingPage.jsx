@@ -27,21 +27,21 @@ const LandingPage = () => {
       />
       {/* Overlay */}
       <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0, 33, 71, 0.1)', zIndex: 1 }} />
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+      {/* Header */}
+      <header style={{ position: 'absolute', top: 0, left: 0, width: '100%', zIndex: 10, padding: '1.5rem 8%'}}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <img
+            src="/koin-logo.png"
+            alt="Koin Logo"
+            style={{ height: '3rem' }}
+          />
+        </div>
+      </header>
 
       {/* Content */}
       <div style={{ position: 'relative', zIndex: 2, minHeight: '100vh', display: 'flex', alignItems: 'center', padding: '0 8%' }}>
         <div>
-          {/* Logo Row */}
-          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '48px' }}>
-            <div style={{ background: '#002147', padding: '8px', borderRadius: '8px', marginRight: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <img src="/koin-logo.png" alt="Koin Logo" style={{ height: '32px', width: '32px' }} />
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <span style={{ fontSize: '2rem', fontWeight: 'bold', color: 'white', lineHeight: 1.1 }}>Koin</span>
-              <span style={{ fontSize: '1rem', color: '#52C5FF', opacity: 0.9, marginTop: '-4px' }}>Academic Collaboration</span>
-            </div>
-          </div>
-
           {/* Headline */}
           <div style={{ marginBottom: '24px' }}>
             <div style={{ fontSize: '3.75rem', fontWeight: 'bold', color: 'white', lineHeight: 1.2 }}>Welcome</div>
@@ -79,23 +79,25 @@ const LandingPage = () => {
                 Login with University SSO
               </button>
             </Link>
-            <button
-              onMouseEnter={() => setLearnMoreHover(true)}
-              onMouseLeave={() => setLearnMoreHover(false)}
-              style={{
-                border: '2px solid white',
-                color: learnMoreHover ? '#002147' : 'white',
-                fontWeight: 'bold',
-                padding: '14px 36px',
-                borderRadius: '8px',
-                fontSize: '1.125rem',
-                background: learnMoreHover ? 'white' : 'transparent',
-                cursor: 'pointer',
-                transition: 'background 0.2s, color 0.2s'
-              }}
-            >
-              Learn More
-            </button>
+            <Link to="/learn-more">
+              <button
+                onMouseEnter={() => setLearnMoreHover(true)}
+                onMouseLeave={() => setLearnMoreHover(false)}
+                style={{
+                  border: '2px solid white',
+                  color: learnMoreHover ? '#002147' : 'white',
+                  fontWeight: 'bold',
+                  padding: '14px 36px',
+                  borderRadius: '8px',
+                  fontSize: '1.125rem',
+                  background: learnMoreHover ? 'white' : 'transparent',
+                  cursor: 'pointer',
+                  transition: 'background 0.2s, color 0.2s'
+                }}
+              >
+                Learn More
+              </button>
+            </Link>
           </div>
 
           {/* Footer Icons */}
@@ -113,6 +115,41 @@ const LandingPage = () => {
       </div>
     </div>
   );
+};
+
+const styles = {
+  header: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    padding: '16px 8%',
+    display: 'flex',
+    alignItems: 'center',
+    zIndex: 2,
+  },
+  headerContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+  logoContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+  },
+  logoImage: {
+    width: '2.5rem',
+    height: '2.5rem',
+    borderRadius: '0.75rem',
+  },
+  logoTitle: {
+    fontSize: '1.5rem',
+    fontWeight: 'bold',
+    color: 'white',
+    lineHeight: 1.2,
+  },
 };
 
 export default LandingPage;
