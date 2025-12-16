@@ -29,7 +29,7 @@ export default function Auth() {
     setLoading(true);
     setError(null);
     try {
-      const response = await api.login(email, password);
+      const response = await api.post('/login', { email, password });
       localStorage.setItem('role', role);
       localStorage.setItem('userEmail', email);
       localStorage.setItem('points', '0');
@@ -156,9 +156,10 @@ export default function Auth() {
             padding: isMobile ? '1.5rem' : '2rem',
             boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
           }}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-              {!isLogin && (
-                <div>
+            <form onSubmit={(e) => e.preventDefault()}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                {!isLogin && (
+                  <div>
                   <label style={{ 
                     display: 'block', 
                     color: '#002147', 
@@ -364,6 +365,7 @@ export default function Auth() {
                 </motion.button>
               </div>
             </div>
+            </form>
           </div>
 
           <p style={{ 
