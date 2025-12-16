@@ -3,14 +3,19 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { createPageUrl } from '../utils/createPageUrl';
 import { GraduationCap, ShieldCheck, ArrowLeft, Eye, EyeOff } from 'lucide-react';
+import api from '../api';
 
 export default function Auth() {
+  const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordConfirmation, setPasswordConfirmation] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [studentButtonHover, setStudentButtonHover] = useState(false);
   const [adminButtonHover, setAdminButtonHover] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -19,15 +24,43 @@ export default function Auth() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  const handleLogin = (role) => {
-    localStorage.setItem('role', role);
-    localStorage.setItem('userEmail', email);
-    localStorage.setItem('points', '0');
+  const handleLogin = async (role) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await api.login(email, password);
+      localStorage.setItem('role', role);
+      localStorage.setItem('userEmail', email);
+      localStorage.setItem('points', '0');
 
-    if (role === 'student') {
-      window.location.href = createPageUrl('StudentDashboard');
-    } else {
-      window.location.href = createPageUrl('AdminDashboard');
+      if (role === 'student') {
+        window.location.href = createPageUrl('StudentDashboard');
+      } else {
+        window.location.href = createPageUrl('AdminDashboard');
+      }
+    } catch (err) {
+      setError('Invalid email or password');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleRegister = async (role) => {
+    setLoading(true);
+    setError(null);
+    if (password !== passwordConfirmation) {
+      setError('Passwords do not match');
+      setLoading(false);
+      return;
+    }
+    try {
+      await api.register(email, password, passwordConfirmation, role);
+      // After successful registration, switch to login view
+      setIsLogin(true);
+    } catch (err) {
+      setError('Registration failed. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -95,10 +128,10 @@ export default function Auth() {
               color: 'white',
               marginBottom: '0.5rem'
             }}>
-              Welcome Back
+              {isLogin ? 'Welcome Back' : 'Create an Account'}
             </h1>
             <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '1rem' }}>
-              Sign in to your academic hub
+              {isLogin ? 'Sign in to your academic hub' : 'Join the community'}
             </p>
           </div>
 
@@ -187,13 +220,52 @@ export default function Auth() {
                 </div>
               </div>
 
+              {!isLogin && (
+                <div>
+                  <label style={{ 
+                    display: 'block', 
+                    color: '#002147', 
+                    fontWeight: 600, 
+                    marginBottom: '0.5rem',
+                    fontSize: '0.9rem'
+                  }}>
+                    Confirm Password
+                  </label>
+                  <input
+                    type="password"
+                    placeholder="••••••••"
+                    value={passwordConfirmation}
+                    onChange={(e) => setPasswordConfirmation(e.target.value)}
+                    style={{
+                      width: '100%',
+                      padding: '14px 16px',
+                      borderRadius: '10px',
+                      border: '2px solid #e2e8f0',
+                      fontSize: '1rem',
+                      transition: 'border-color 0.2s',
+                      outline: 'none',
+                      boxSizing: 'border-box'
+                    }}
+                    onFocus={(e) => e.target.style.borderColor = '#52C5FF'}
+                    onBlur={(e) => e.target.style.borderColor = '#e2e8f0'}
+                  />
+                </div>
+              )}
+
+              {error && (
+                <div style={{ color: 'red', textAlign: 'center', padding: '10px', background: 'rgba(255, 0, 0, 0.1)', borderRadius: '8px' }}>
+                  {error}
+                </div>
+              )}
+
               <div style={{ paddingTop: '0.5rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                 <motion.button
                   whileHover={{ scale: 1.01 }}
                   whileTap={{ scale: 0.99 }}
-                  onClick={() => handleLogin('student')}
+                  onClick={() => isLogin ? handleLogin('student') : handleRegister('student')}
                   onMouseEnter={() => setStudentButtonHover(true)}
                   onMouseLeave={() => setStudentButtonHover(false)}
+                  disabled={loading}
                   style={{
                     width: '100%',
                     padding: '14px',
@@ -203,7 +275,8 @@ export default function Auth() {
                     borderRadius: '10px',
                     fontSize: '1rem',
                     border: 'none',
-                    cursor: 'pointer',
+                    cursor: loading ? 'not-allowed' : 'pointer',
+                    opacity: loading ? 0.7 : 1,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -212,15 +285,16 @@ export default function Auth() {
                   }}
                 >
                   <GraduationCap size={20} />
-                  Login as Student
+                  {loading ? (isLogin ? 'Logging in...' : 'Registering...') : (isLogin ? 'Login as Student' : 'Register as Student')}
                 </motion.button>
 
                 <motion.button
                   whileHover={{ scale: 1.01 }}
                   whileTap={{ scale: 0.99 }}
-                  onClick={() => handleLogin('admin')}
+                  onClick={() => isLogin ? handleLogin('admin') : handleRegister('admin')}
                   onMouseEnter={() => setAdminButtonHover(true)}
                   onMouseLeave={() => setAdminButtonHover(false)}
+                  disabled={loading}
                   style={{
                     width: '100%',
                     padding: '14px',
@@ -230,7 +304,8 @@ export default function Auth() {
                     borderRadius: '10px',
                     fontSize: '1rem',
                     background: adminButtonHover ? '#002147' : 'transparent',
-                    cursor: 'pointer',
+                    cursor: loading ? 'not-allowed' : 'pointer',
+                    opacity: loading ? 0.7 : 1,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -239,11 +314,23 @@ export default function Auth() {
                   }}
                 >
                   <ShieldCheck size={20} />
-                  Login as Admin
+                  {loading ? (isLogin ? 'Logging in...' : 'Registering...') : (isLogin ? 'Login as Admin' : 'Register as Admin')}
                 </motion.button>
               </div>
             </div>
           </div>
+
+          <p style={{ 
+            textAlign: 'center', 
+            color: 'rgba(255,255,255,0.6)', 
+            fontSize: '0.875rem',
+            marginTop: '1.5rem'
+          }}>
+            {isLogin ? 'Don\'t have an account?' : 'Already have an account?'}{' '}
+            <button onClick={() => setIsLogin(!isLogin)} style={{ color: '#52C5FF', fontWeight: 600, background: 'none', border: 'none', cursor: 'pointer' }}>
+              {isLogin ? 'Sign up' : 'Sign in'}
+            </button>
+          </p>
 
           <p style={{ 
             textAlign: 'center', 
