@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { createPageUrl } from '../utils/createPageUrl';
 import { GraduationCap, ShieldCheck, ArrowLeft, Eye, EyeOff } from 'lucide-react';
@@ -17,6 +17,18 @@ export default function Auth() {
   const [isMobile, setIsMobile] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [selectedPlan, setSelectedPlan] = useState(null);
+
+  const location = useLocation();
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const plan = params.get('plan');
+    if (plan) {
+      setSelectedPlan(decodeURIComponent(plan));
+      setIsLogin(false); // Automatically switch to register mode if a plan is selected
+    }
+  }, [location.search]);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -148,6 +160,11 @@ export default function Auth() {
             <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '1rem' }}>
               {isLogin ? 'Sign in to your academic hub' : 'Join the community'}
             </p>
+            {selectedPlan && (
+              <p style={{ color: '#FFC72C', fontSize: '1rem', marginTop: '1rem' }}>
+                You have selected the <strong>{selectedPlan}</strong>.
+              </p>
+            )}
           </div>
 
           <div style={{
@@ -306,34 +323,36 @@ export default function Auth() {
               )}
 
               <div style={{ paddingTop: '0.5rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                <motion.button
-                  whileHover={{ scale: 1.01 }}
-                  whileTap={{ scale: 0.99 }}
-                  onClick={() => isLogin ? handleLogin('student') : handleRegister('student')}
-                  onMouseEnter={() => setStudentButtonHover(true)}
-                  onMouseLeave={() => setStudentButtonHover(false)}
-                  disabled={loading}
-                  style={{
-                    width: '100%',
-                    padding: '14px',
-                    background: studentButtonHover ? '#FFD966' : '#FFC72C',
-                    color: '#002147',
-                    fontWeight: 700,
-                    borderRadius: '10px',
-                    fontSize: '1rem',
-                    border: 'none',
-                    cursor: loading ? 'not-allowed' : 'pointer',
-                    opacity: loading ? 0.7 : 1,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '0.5rem',
-                    transition: 'background 0.2s'
-                  }}
-                >
-                  <GraduationCap size={20} />
-                  {loading ? (isLogin ? 'Logging in...' : 'Registering...') : (isLogin ? 'Login as Student' : 'Register as Student')}
-                </motion.button>
+                {!selectedPlan && (
+                  <motion.button
+                    whileHover={{ scale: 1.01 }}
+                    whileTap={{ scale: 0.99 }}
+                    onClick={() => isLogin ? handleLogin('student') : handleRegister('student')}
+                    onMouseEnter={() => setStudentButtonHover(true)}
+                    onMouseLeave={() => setStudentButtonHover(false)}
+                    disabled={loading}
+                    style={{
+                      width: '100%',
+                      padding: '14px',
+                      background: studentButtonHover ? '#FFD966' : '#FFC72C',
+                      color: '#002147',
+                      fontWeight: 700,
+                      borderRadius: '10px',
+                      fontSize: '1rem',
+                      border: 'none',
+                      cursor: loading ? 'not-allowed' : 'pointer',
+                      opacity: loading ? 0.7 : 1,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '0.5rem',
+                      transition: 'background 0.2s'
+                    }}
+                  >
+                    <GraduationCap size={20} />
+                    {loading ? (isLogin ? 'Logging in...' : 'Registering...') : (isLogin ? 'Login as Student' : 'Register as Student')}
+                  </motion.button>
+                )}
 
                 <motion.button
                   whileHover={{ scale: 1.01 }}
@@ -374,8 +393,8 @@ export default function Auth() {
             fontSize: '0.875rem',
             marginTop: '1.5rem'
           }}>
-            {isLogin ? 'Don\'t have an account?' : 'Already have an account?'}{' '}
-            <button onClick={() => setIsLogin(!isLogin)} style={{ color: '#52C5FF', fontWeight: 600, background: 'none', border: 'none', cursor: 'pointer' }}>
+            {isLogin ? "Don't have an account?" : 'Already have an account?'}{' '}
+            <button onClick={() => { setIsLogin(!isLogin); setSelectedPlan(null); }} style={{ color: '#52C5FF', fontWeight: 600, background: 'none', border: 'none', cursor: 'pointer' }}>
               {isLogin ? 'Sign up' : 'Sign in'}
             </button>
           </p>
