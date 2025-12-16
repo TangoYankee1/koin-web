@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { createPageUrl } from '../utils/createPageUrl';
 import { GraduationCap, ShieldCheck, ArrowLeft, Eye, EyeOff } from 'lucide-react';
-import api from '../api';
+import api from '../api/axios';
 
 export default function Auth() {
   const [isLogin, setIsLogin] = useState(true);
