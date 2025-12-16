@@ -1,10 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { BookOpen, Upload, LogOut } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Upload, LogOut, Users, FileText, X, BookOpen, Trophy, TrendingUp } from 'lucide-react';
 
 const PointsBadge = ({ points }) => (
-  <div style={styles.pointsBadge}>
-    <span style={styles.pointsText}>Points: {points}</span>
+  <div style={{
+    background: 'linear-gradient(135deg, #FFC72C, #FFD966)',
+    padding: '8px 16px',
+    borderRadius: '50px',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '6px'
+  }}>
+    <Trophy size={16} color="#002147" />
+    <span style={{ color: '#002147', fontWeight: 700, fontSize: '0.9rem' }}>{points} pts</span>
   </div>
 );
 
@@ -12,26 +21,62 @@ const CourseHubCard = ({ course }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <div
-      style={{ ...styles.card, ...(isHovered ? styles.cardHover : {}) }}
+    <motion.div
+      whileHover={{ y: -5 }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      style={{
+        background: 'white',
+        borderRadius: '16px',
+        padding: '1.5rem',
+        boxShadow: isHovered 
+          ? '0 20px 40px -12px rgba(0, 33, 71, 0.15)'
+          : '0 4px 12px rgba(0, 33, 71, 0.08)',
+        border: isHovered ? '2px solid #52C5FF' : '2px solid transparent',
+        cursor: 'pointer',
+        transition: 'all 0.3s ease'
+      }}
     >
-      <h3 style={{ ...styles.cardTitle, ...(isHovered && { color: '#3B82F6' }) }}>{course.name}</h3>
-      <p style={{ ...styles.cardCode, ...(isHovered && { color: '#3B82F6' }) }}>{course.code}</p>
-      <div style={{ ...styles.cardStats, ...(isHovered ? styles.cardStatsHover : {}) }}>
-        <p>Students: {course.students}</p>
-        <p>Resources: {course.resources}</p>
+      <div style={{ 
+        width: '48px', 
+        height: '48px', 
+        background: 'linear-gradient(135deg, rgba(82, 197, 255, 0.15), rgba(82, 197, 255, 0.05))',
+        borderRadius: '12px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: '1rem'
+      }}>
+        <BookOpen color="#52C5FF" size={24} />
       </div>
-    </div>
+      <h3 style={{ color: '#002147', fontSize: '1.1rem', fontWeight: 700, marginBottom: '0.25rem' }}>{course.name}</h3>
+      <p style={{ color: '#64748b', fontSize: '0.875rem', marginBottom: '1rem' }}>{course.code}</p>
+      <div style={{ 
+        display: 'flex', 
+        gap: '1rem',
+        padding: '0.75rem',
+        background: isHovered ? 'linear-gradient(135deg, #52C5FF, #38bdf8)' : '#f8fafc',
+        borderRadius: '10px',
+        transition: 'all 0.3s ease'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <Users size={14} color={isHovered ? 'white' : '#64748b'} />
+          <span style={{ fontSize: '0.8rem', color: isHovered ? 'white' : '#64748b', fontWeight: 500 }}>{course.students}</span>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <FileText size={14} color={isHovered ? 'white' : '#64748b'} />
+          <span style={{ fontSize: '0.8rem', color: isHovered ? 'white' : '#64748b', fontWeight: 500 }}>{course.resources}</span>
+        </div>
+      </div>
+    </motion.div>
   );
 };
 
 const UploadResourceModal = ({ open, onClose, courses, onSubmit }) => {
-  if (!open) return null;
-
   const [course, setCourse] = useState(courses[0]?.id || '');
   const [file, setFile] = useState(null);
+
+  if (!open) return null;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -41,30 +86,129 @@ const UploadResourceModal = ({ open, onClose, courses, onSubmit }) => {
   };
 
   return (
-    <div style={styles.modalOverlay}>
-      <div style={styles.modal}>
-        <h2 style={styles.modalTitle}>Upload Resource</h2>
-        <form onSubmit={handleSubmit}>
-          <div style={styles.formGroup}>
-            <label htmlFor="course-select">Course</label>
-            <select id="course-select" value={course} onChange={(e) => setCourse(e.target.value)} style={styles.select}>
-              {courses.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-            </select>
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(0, 33, 71, 0.8)',
+          backdropFilter: 'blur(4px)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 100,
+          padding: '1rem'
+        }}
+        onClick={onClose}
+      >
+        <motion.div
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ scale: 0.9, opacity: 0 }}
+          onClick={(e) => e.stopPropagation()}
+          style={{
+            background: 'white',
+            borderRadius: '20px',
+            padding: '2rem',
+            width: '100%',
+            maxWidth: '450px',
+            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
+          }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+            <h2 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#002147' }}>Upload Resource</h2>
+            <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#94a3b8' }}>
+              <X size={24} />
+            </button>
           </div>
-          <div style={styles.formGroup}>
-            <label htmlFor="file-upload">File</label>
-            <input id="file-upload" type="file" onChange={(e) => setFile(e.target.files[0])} style={styles.inputFile} />
-          </div>
-          <div style={styles.modalActions}>
-            <button type="button" onClick={onClose} style={styles.buttonSecondary}>Cancel</button>
-            <button type="submit" style={styles.button}>Upload</button>
-          </div>
-        </form>
-      </div>
-    </div>
+          <form onSubmit={handleSubmit}>
+            <div style={{ marginBottom: '1.25rem' }}>
+              <label style={{ display: 'block', color: '#002147', fontWeight: 600, marginBottom: '0.5rem', fontSize: '0.9rem' }}>Course</label>
+              <select 
+                value={course} 
+                onChange={(e) => setCourse(e.target.value)} 
+                style={{
+                  width: '100%',
+                  padding: '12px 16px',
+                  borderRadius: '10px',
+                  border: '2px solid #e2e8f0',
+                  fontSize: '1rem',
+                  outline: 'none',
+                  cursor: 'pointer'
+                }}
+              >
+                {courses.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+              </select>
+            </div>
+            <div style={{ marginBottom: '1.5rem' }}>
+              <label style={{ display: 'block', color: '#002147', fontWeight: 600, marginBottom: '0.5rem', fontSize: '0.9rem' }}>File</label>
+              <div style={{
+                border: '2px dashed #e2e8f0',
+                borderRadius: '10px',
+                padding: '2rem',
+                textAlign: 'center',
+                cursor: 'pointer',
+                background: '#f8fafc'
+              }}>
+                <input 
+                  type="file" 
+                  onChange={(e) => setFile(e.target.files[0])} 
+                  style={{ display: 'none' }}
+                  id="file-upload"
+                />
+                <label htmlFor="file-upload" style={{ cursor: 'pointer' }}>
+                  <Upload color="#94a3b8" size={32} style={{ marginBottom: '0.5rem' }} />
+                  <p style={{ color: '#64748b', fontSize: '0.9rem' }}>
+                    {file ? file.name : 'Click to upload or drag and drop'}
+                  </p>
+                </label>
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: '1rem' }}>
+              <button 
+                type="button" 
+                onClick={onClose}
+                style={{
+                  flex: 1,
+                  padding: '12px',
+                  borderRadius: '10px',
+                  border: '2px solid #e2e8f0',
+                  background: 'white',
+                  color: '#64748b',
+                  fontWeight: 600,
+                  cursor: 'pointer'
+                }}
+              >
+                Cancel
+              </button>
+              <button 
+                type="submit"
+                style={{
+                  flex: 1,
+                  padding: '12px',
+                  borderRadius: '10px',
+                  border: 'none',
+                  background: '#FFC72C',
+                  color: '#002147',
+                  fontWeight: 700,
+                  cursor: 'pointer'
+                }}
+              >
+                Upload
+              </button>
+            </div>
+          </form>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
   );
 };
-
 
 const MOCK_COURSES = [
   { id: '1', name: 'Introduction to Computer Science', code: 'CS101', students: 234, resources: 45 },
@@ -75,99 +219,138 @@ const MOCK_COURSES = [
   { id: '6', name: 'Organic Chemistry', code: 'CHEM201', students: 112, resources: 41 },
 ];
 
-
 export default function StudentDashboard() {
   const [points, setPoints] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [logoutHover, setLogoutHover] = useState(false);
-  const [uploadHover, setUploadHover] = useState(false);
-
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const savedPoints = localStorage.getItem('points');
     if (savedPoints) {
       setPoints(parseInt(savedPoints, 10));
     }
+    
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-
   const handleUploadResource = (data) => {
-    // Simulate POST to /resources
     console.log('POST /resources:', data);
-    
     const newPoints = points + 10;
     setPoints(newPoints);
     localStorage.setItem('points', newPoints.toString());
-    
     setIsModalOpen(false);
     alert('Resource uploaded successfully! +10 points earned');
   };
 
-
   const handleLogout = () => {
     localStorage.removeItem('role');
     localStorage.removeItem('userEmail');
-    // Assuming createPageUrl is not available, redirect manually
     window.location.href = '/';
   };
 
-
   return (
-    <div style={styles.container}>
-      {/* Header */}
-      <header style={styles.header}>
-        <div style={styles.headerContainer}>
-          <div style={styles.logoContainer}>
-            <img src="/koin-logo.png" alt="Koin Logo" style={styles.logoImage} />
-            <h1 style={styles.logoTitle}>Student Dashboard</h1>
+    <div style={{ minHeight: '100vh', background: 'linear-gradient(180deg, #f8fafc 0%, #ffffff 100%)' }}>
+      <header style={{
+        background: 'white',
+        borderBottom: '1px solid #f1f5f9',
+        position: 'sticky',
+        top: 0,
+        zIndex: 50,
+        boxShadow: '0 1px 3px rgba(0,0,0,0.05)'
+      }}>
+        <div style={{ 
+          maxWidth: '1280px', 
+          margin: '0 auto', 
+          padding: isMobile ? '0.875rem 1rem' : '1rem 2rem',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <img src="/koin-logo.png" alt="Koin Logo" style={{ height: isMobile ? '2rem' : '2.5rem' }} />
+            {!isMobile && <h1 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#002147' }}>Student Dashboard</h1>}
           </div>
-
-          <div style={styles.headerRight}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
             <PointsBadge points={points} />
-            <button
-              style={{ ...styles.iconButton, ...(logoutHover ? styles.iconButtonHover : {}) }}
-              onMouseEnter={() => setLogoutHover(true)}
-              onMouseLeave={() => setLogoutHover(false)}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={handleLogout}
+              style={{
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                color: '#94a3b8',
+                padding: '8px'
+              }}
             >
-              <LogOut style={styles.logoutIcon} />
-            </button>
+              <LogOut size={20} />
+            </motion.button>
           </div>
         </div>
       </header>
 
-
-      {/* Main Content */}
-      <main style={styles.main}>
-        {/* Page Header */}
-        <div style={styles.pageHeader}>
+      <main style={{ maxWidth: '1280px', margin: '0 auto', padding: isMobile ? '1.5rem 1rem' : '2rem' }}>
+        <div style={{ 
+          display: 'flex', 
+          flexDirection: isMobile ? 'column' : 'row',
+          justifyContent: 'space-between', 
+          alignItems: isMobile ? 'stretch' : 'center',
+          gap: '1rem',
+          marginBottom: '2rem'
+        }}>
           <div>
-            <h2 style={styles.pageTitle}>Student Dashboard</h2>
-            <p style={styles.pageSubtitle}>Explore your course hubs and contribute resources</p>
+            <h2 style={{ fontSize: isMobile ? '1.5rem' : '1.875rem', fontWeight: 700, color: '#002147', marginBottom: '0.25rem' }}>
+              Welcome Back!
+            </h2>
+            <p style={{ color: '#64748b', fontSize: '1rem' }}>Explore your course hubs and contribute resources</p>
           </div>
-          
-          <button
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             onClick={() => setIsModalOpen(true)}
-            style={{ ...styles.button, ...(uploadHover ? styles.buttonHover : {}) }}
-            onMouseEnter={() => setUploadHover(true)}
-            onMouseLeave={() => setUploadHover(false)}
+            style={{
+              background: 'linear-gradient(135deg, #FFC72C, #FFD966)',
+              color: '#002147',
+              fontWeight: 700,
+              padding: '12px 24px',
+              borderRadius: '12px',
+              border: 'none',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
+              fontSize: '1rem',
+              boxShadow: '0 4px 14px rgba(255, 199, 44, 0.4)'
+            }}
           >
-            <Upload style={styles.buttonIcon} />
+            <Upload size={18} />
             Upload Resource
-          </button>
+          </motion.button>
         </div>
 
-
-        {/* Course Hubs Grid */}
-        <div style={styles.grid}>
-          {MOCK_COURSES.map(course => (
-            <CourseHubCard key={course.id} course={course} />
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fill, minmax(300px, 1fr))',
+          gap: '1.25rem'
+        }}>
+          {MOCK_COURSES.map((course, index) => (
+            <motion.div
+              key={course.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.05 }}
+            >
+              <CourseHubCard course={course} />
+            </motion.div>
           ))}
         </div>
       </main>
 
-
-      {/* Upload Modal */}
       <UploadResourceModal
         open={isModalOpen}
         onClose={() => setIsModalOpen(false)}
@@ -177,209 +360,3 @@ export default function StudentDashboard() {
     </div>
   );
 }
-
-const styles = {
-  container: {
-    minHeight: '100vh',
-    background: 'linear-gradient(to bottom right, #F8FAFC, #FFFFFF, rgba(239, 246, 255, 0.3))',
-  },
-  header: {
-    backgroundColor: '#fff',
-    borderBottom: '1px solid #F1F5F9',
-    position: 'sticky',
-    top: 0,
-    zIndex: 50,
-  },
-  headerContainer: {
-    maxWidth: '80rem',
-    margin: 'auto',
-    padding: '1rem 1.5rem',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  logoContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '0.75rem',
-  },
-  logoImage: {
-    width: '2.5rem',
-    height: '2.5rem',
-    borderRadius: '0.75rem',
-  },
-  logoTitle: {
-    fontSize: '1.25rem',
-    fontWeight: 'bold',
-    color: '#002147',
-  },
-  logoSubtitle: {
-    fontSize: '0.75rem',
-    color: '#56C1E8',
-    fontWeight: '500',
-  },
-  headerRight: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '1rem',
-  },
-  iconButton: {
-    background: 'none',
-    border: 'none',
-    cursor: 'pointer',
-    color: '#94A3B8',
-  },
-  iconButtonHover: {
-    color: '#002147',
-  },
-  logoutIcon: {
-    width: '1.25rem',
-    height: '1.25rem',
-  },
-  main: {
-    maxWidth: '80rem',
-    margin: 'auto',
-    padding: '2rem 1.5rem',
-  },
-  pageHeader: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: '1rem',
-    marginBottom: '2rem',
-  },
-  pageTitle: {
-    fontSize: '1.875rem',
-    fontWeight: 'bold',
-    color: '#002147',
-  },
-  pageSubtitle: {
-    color: '#64748B',
-    marginTop: '0.25rem',
-  },
-  button: {
-    backgroundColor: '#FFC72C',
-    color: '#002147',
-    fontWeight: '600',
-    boxShadow: '0 10px 15px -3px rgba(255, 199, 44, 0.3), 0 4px 6px -2px rgba(255, 199, 44, 0.3)',
-    transition: 'all 0.3s ease',
-    padding: '0.5rem 1rem',
-    borderRadius: '0.375rem',
-    border: 'none',
-    cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
-  },
-  buttonHover: {
-    backgroundColor: '#FFD54F',
-    boxShadow: '0 10px 20px -3px rgba(255, 199, 44, 0.4), 0 4px 6px -2px rgba(255, 199, 44, 0.4)',
-  },
-  buttonIcon: {
-    width: '1rem',
-    height: '1rem',
-    marginRight: '0.5rem',
-  },
-  grid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
-    gap: '1.5rem',
-  },
-  pointsBadge: {
-    padding: '0.5rem 1rem',
-    backgroundColor: '#E0E7FF',
-    borderRadius: '9999px',
-  },
-  pointsText: {
-    color: '#4F46E5',
-    fontWeight: 'bold',
-  },
-  card: {
-    backgroundColor: 'white',
-    padding: '1.5rem',
-    borderRadius: '0.75rem',
-    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-    transition: 'all 0.2s ease-in-out',
-    cursor: 'pointer',
-  },
-  cardHover: {
-    transform: 'translateY(-5px)',
-    boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-    borderColor: '#3B82F6',
-    borderWidth: '1px',
-  },
-  cardTitle: {
-    fontWeight: 'bold',
-    fontSize: '1.125rem',
-    color: '#002147',
-    transition: 'color 0.2s ease-in-out',
-  },
-  cardCode: {
-    color: '#64748B',
-    fontSize: '0.875rem',
-    marginBottom: '1rem',
-    transition: 'color 0.2s ease-in-out',
-  },
-  cardStats: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    color: '#334155',
-    transition: 'all 0.2s ease-in-out',
-    padding: '0.75rem',
-    borderRadius: '0.5rem',
-  },
-  cardStatsHover: {
-    backgroundColor: '#3B82F6',
-    color: 'white',
-    fontWeight: '500',
-  },
-  modalOverlay: {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 100,
-  },
-  modal: {
-    backgroundColor: 'white',
-    padding: '2rem',
-    borderRadius: '0.75rem',
-    width: '90%',
-    maxWidth: '500px',
-  },
-  modalTitle: {
-    fontSize: '1.5rem',
-    fontWeight: 'bold',
-    marginBottom: '1rem',
-  },
-  formGroup: {
-    marginBottom: '1rem',
-  },
-  select: {
-    width: '100%',
-    padding: '0.5rem',
-    borderRadius: '0.375rem',
-    border: '1px solid #D1D5DB',
-  },
-  inputFile: {
-    width: '100%',
-  },
-  modalActions: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-    gap: '1rem',
-    marginTop: '2rem',
-  },
-  buttonSecondary: {
-    padding: '0.5rem 1rem',
-    borderRadius: '0.375rem',
-    border: '1px solid #D1D5DB',
-    backgroundColor: 'white',
-    cursor: 'pointer',
-  }
-};

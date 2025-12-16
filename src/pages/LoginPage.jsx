@@ -1,13 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { createPageUrl } from '../utils/createPageUrl';
-import backgroundImage from '../assets/university-students.jpg';
-import { GraduationCap, ShieldCheck } from 'lucide-react';
+import { GraduationCap, ShieldCheck, ArrowLeft, Eye, EyeOff } from 'lucide-react';
 
 export default function Auth() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [studentButtonHover, setStudentButtonHover] = useState(false);
   const [adminButtonHover, setAdminButtonHover] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const handleLogin = (role) => {
     localStorage.setItem('role', role);
@@ -21,215 +31,225 @@ export default function Auth() {
     }
   };
 
-  const styles = {
-    container: {
-      minHeight: '100vh',
-      width: '100vw',
-      position: 'relative',
-      overflow: 'hidden',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      padding: '1.5rem',
-    },
-    backgroundImage: {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      width: '100%',
-      height: '100%',
-      objectFit: 'cover',
-      zIndex: 0,
-      opacity: 0.5,
-    },
-    overlay: {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      width: '100%',
-      height: '100%',
-      background: 'rgba(0, 33, 71, 0.1)',
-      zIndex: 1,
-    },
-    content: {
-      position: 'relative',
-      zIndex: 2,
-      width: '100%',
-      maxWidth: '28rem',
-    },
-    logoContainer: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      gap: '0.75rem',
-      marginBottom: '3rem',
-    },
-    logoIconContainer: {
-      width: '3.5rem',
-      height: '3.5rem',
-      backgroundColor: '#002147',
-      borderRadius: '0.75rem',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    title: {
-      fontSize: '1.875rem',
-      fontWeight: 'bold',
-      color: 'white',
-      letterSpacing: '-0.025em',
-    },
-    subtitle: {
-      fontSize: '0.75rem',
-      color: '#52C5FF',
-      fontWeight: '500',
-    },
-    card: {
-      backgroundColor: 'rgba(255, 255, 255, 0.9)',
-      borderRadius: '1rem',
-      boxShadow: '0 10px 15px -3px rgba(0, 33, 71, 0.1), 0 4px 6px -2px rgba(0, 33, 71, 0.1)',
-      padding: '2rem',
-      border: '1px solid rgba(255, 255, 255, 0.2)',
-    },
-    cardTitle: {
-      fontSize: '1.5rem',
-      fontWeight: 'bold',
-      color: '#002147',
-      textAlign: 'center',
-      marginBottom: '0.5rem',
-    },
-    cardSubtitle: {
-      color: '#002147',
-      textAlign: 'center',
-      marginBottom: '2rem',
-    },
-    inputLabel: {
-      color: '#002147',
-      fontWeight: '500',
-    },
-    input: {
-      height: '3rem',
-      border: '1px solid #e2e8f0',
-      borderRadius: '0.5rem',
-      width: '100%',
-      padding: '0 0.75rem',
-      backgroundColor: 'white',
-    },
-    studentButton: {
-      width: '100%',
-      height: '3rem',
-      backgroundColor: studentButtonHover ? '#FFD966' : '#FFC72C',
-      color: '#002147',
-      fontWeight: 'bold',
-      borderRadius: '8px',
-      fontSize: '1.125rem',
-      border: 'none',
-      cursor: 'pointer',
-      transition: 'background 0.2s',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    adminButton: {
-      width: '100%',
-      height: '3rem',
-      border: '2px solid white',
-      color: adminButtonHover ? '#002147' : 'white',
-      fontWeight: 'bold',
-      borderRadius: '8px',
-      fontSize: '1.125rem',
-      background: adminButtonHover ? 'white' : 'transparent',
-      cursor: 'pointer',
-      transition: 'background 0.2s, color 0.2s',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    footerText: {
-      textAlign: 'center',
-      fontSize: '0.875rem',
-      color: 'white',
-      opacity: 0.8,
-      marginTop: '2rem',
-    },
-  };
-
   return (
-    <div style={styles.container}>
-      <img
-        src={backgroundImage}
-        alt="Academic collaboration background"
-        style={styles.backgroundImage}
-        draggable="false"
-      />
-      <div style={styles.overlay} />
+    <div style={{ 
+      minHeight: '100vh', 
+      width: '100%', 
+      background: 'linear-gradient(135deg, #002147 0%, #003366 50%, #002147 100%)',
+      display: 'flex',
+      flexDirection: 'column'
+    }}>
+      <header style={{ 
+        padding: isMobile ? '1rem' : '1.5rem 5%',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+      }}>
+        <Link to="/">
+          <img src="/koin-logo.png" alt="Koin Logo" style={{ height: isMobile ? '2rem' : '2.5rem' }} />
+        </Link>
+        <Link to="/">
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              background: 'rgba(255,255,255,0.1)',
+              border: '1px solid rgba(255,255,255,0.2)',
+              color: 'white',
+              padding: '8px 16px',
+              borderRadius: '8px',
+              cursor: 'pointer',
+              fontSize: '0.9rem'
+            }}
+          >
+            <ArrowLeft size={16} /> Back
+          </motion.button>
+        </Link>
+      </header>
 
-      <div style={styles.content}>
-        <div style={styles.logoContainer}>
-          <img src="/koin-logo.png" alt="Koin Logo" style={{ height: '56px', width: '56px' }} />
-          <div>
-            <h1 style={styles.title}>Koin</h1>
-            <p style={styles.subtitle}>Academic Collaboration</p>
+      <main style={{ 
+        flex: 1, 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'center',
+        padding: isMobile ? '1rem' : '2rem'
+      }}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          style={{ width: '100%', maxWidth: '420px' }}
+        >
+          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+            <h1 style={{ 
+              fontSize: isMobile ? '1.75rem' : '2.25rem', 
+              fontWeight: 800, 
+              color: 'white',
+              marginBottom: '0.5rem'
+            }}>
+              Welcome Back
+            </h1>
+            <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '1rem' }}>
+              Sign in to your academic hub
+            </p>
           </div>
-        </div>
 
-        <div style={styles.card}>
-          <h2 style={styles.cardTitle}>Welcome Back</h2>
-          <p style={styles.cardSubtitle}>Sign in to your academic hub</p>
+          <div style={{
+            background: 'rgba(255,255,255,0.95)',
+            borderRadius: '16px',
+            padding: isMobile ? '1.5rem' : '2rem',
+            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
+          }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+              <div>
+                <label style={{ 
+                  display: 'block', 
+                  color: '#002147', 
+                  fontWeight: 600, 
+                  marginBottom: '0.5rem',
+                  fontSize: '0.9rem'
+                }}>
+                  Email
+                </label>
+                <input
+                  type="email"
+                  placeholder="your.email@university.edu"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  style={{
+                    width: '100%',
+                    padding: '14px 16px',
+                    borderRadius: '10px',
+                    border: '2px solid #e2e8f0',
+                    fontSize: '1rem',
+                    transition: 'border-color 0.2s',
+                    outline: 'none',
+                    boxSizing: 'border-box'
+                  }}
+                  onFocus={(e) => e.target.style.borderColor = '#52C5FF'}
+                  onBlur={(e) => e.target.style.borderColor = '#e2e8f0'}
+                />
+              </div>
 
-          <div style={{display: 'flex', flexDirection: 'column', gap: '1.25rem'}}>
-            <div style={{display: 'flex', flexDirection: 'column', gap: '0.5rem'}}>
-              <label htmlFor="email" style={styles.inputLabel}>Email</label>
-              <input
-                id="email"
-                type="email"
-                placeholder="your.email@university.edu"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                style={styles.input}
-              />
-            </div>
+              <div>
+                <label style={{ 
+                  display: 'block', 
+                  color: '#002147', 
+                  fontWeight: 600, 
+                  marginBottom: '0.5rem',
+                  fontSize: '0.9rem'
+                }}>
+                  Password
+                </label>
+                <div style={{ position: 'relative' }}>
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder="••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    style={{
+                      width: '100%',
+                      padding: '14px 48px 14px 16px',
+                      borderRadius: '10px',
+                      border: '2px solid #e2e8f0',
+                      fontSize: '1rem',
+                      transition: 'border-color 0.2s',
+                      outline: 'none',
+                      boxSizing: 'border-box'
+                    }}
+                    onFocus={(e) => e.target.style.borderColor = '#52C5FF'}
+                    onBlur={(e) => e.target.style.borderColor = '#e2e8f0'}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    style={{
+                      position: 'absolute',
+                      right: '14px',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      color: '#94a3b8'
+                    }}
+                  >
+                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  </button>
+                </div>
+              </div>
 
-            <div style={{display: 'flex', flexDirection: 'column', gap: '0.5rem'}}>
-              <label htmlFor="password" style={styles.inputLabel}>Password</label>
-              <input
-                id="password"
-                type="password"
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                style={styles.input}
-              />
-            </div>
+              <div style={{ paddingTop: '0.5rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                <motion.button
+                  whileHover={{ scale: 1.01 }}
+                  whileTap={{ scale: 0.99 }}
+                  onClick={() => handleLogin('student')}
+                  onMouseEnter={() => setStudentButtonHover(true)}
+                  onMouseLeave={() => setStudentButtonHover(false)}
+                  style={{
+                    width: '100%',
+                    padding: '14px',
+                    background: studentButtonHover ? '#FFD966' : '#FFC72C',
+                    color: '#002147',
+                    fontWeight: 700,
+                    borderRadius: '10px',
+                    fontSize: '1rem',
+                    border: 'none',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.5rem',
+                    transition: 'background 0.2s'
+                  }}
+                >
+                  <GraduationCap size={20} />
+                  Login as Student
+                </motion.button>
 
-            <div style={{paddingTop: '1rem', display: 'flex', flexDirection: 'column', gap: '0.75rem'}}>
-              <button
-                onClick={() => handleLogin('student')}
-                style={styles.studentButton}
-                onMouseEnter={() => setStudentButtonHover(true)}
-                onMouseLeave={() => setStudentButtonHover(false)}
-              >
-                <GraduationCap style={{width: '1.25rem', height: '1.25rem', marginRight: '0.5rem'}} />
-                Login as Student
-              </button>
-
-              <button
-                onClick={() => handleLogin('admin')}
-                style={styles.adminButton}
-                onMouseEnter={() => setAdminButtonHover(true)}
-                onMouseLeave={() => setAdminButtonHover(false)}
-              >
-                <ShieldCheck style={{width: '1.25rem', height: '1.25rem', marginRight: '0.5rem'}} />
-                Login as Admin
-              </button>
+                <motion.button
+                  whileHover={{ scale: 1.01 }}
+                  whileTap={{ scale: 0.99 }}
+                  onClick={() => handleLogin('admin')}
+                  onMouseEnter={() => setAdminButtonHover(true)}
+                  onMouseLeave={() => setAdminButtonHover(false)}
+                  style={{
+                    width: '100%',
+                    padding: '14px',
+                    border: '2px solid #002147',
+                    color: adminButtonHover ? 'white' : '#002147',
+                    fontWeight: 700,
+                    borderRadius: '10px',
+                    fontSize: '1rem',
+                    background: adminButtonHover ? '#002147' : 'transparent',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.5rem',
+                    transition: 'all 0.2s'
+                  }}
+                >
+                  <ShieldCheck size={20} />
+                  Login as Admin
+                </motion.button>
+              </div>
             </div>
           </div>
-        </div>
 
-        <p style={styles.footerText}>
-          Powered Securely by Guildly
-        </p>
-      </div>
+          <p style={{ 
+            textAlign: 'center', 
+            color: 'rgba(255,255,255,0.6)', 
+            fontSize: '0.875rem',
+            marginTop: '1.5rem'
+          }}>
+            Powered Securely by Guildly
+          </p>
+        </motion.div>
+      </main>
     </div>
   );
 }
