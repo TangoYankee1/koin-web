@@ -106,9 +106,9 @@ const StruggleHeatMap = ({ isMobile }) => (
 );
 
 const FLAGGED_CONTENT = [
-  { content: 'Calculus Exam Solutions', reason: 'Copyright', status: 'pending' },
-  { content: 'CS101 Assignment 3', reason: 'Plagiarism', status: 'resolved' },
-  { content: 'Physics Lab Report', reason: 'Copyright', status: 'pending' },
+  { content: 'Calculus Exam Solutions', reason: 'Copyright', status: 'pending', studentId: 1 },
+  { content: 'CS101 Assignment 3', reason: 'Plagiarism', status: 'resolved', studentId: 2 },
+  { content: 'Physics Lab Report', reason: 'Copyright', status: 'pending', studentId: 3 },
 ];
 
 const FlaggedContentTable = ({ isMobile }) => (
@@ -145,6 +145,11 @@ const FlaggedContentTable = ({ isMobile }) => (
             <p style={{ color: '#002147', fontWeight: 600, fontSize: '0.9rem' }}>{item.content}</p>
             <p style={{ color: '#64748b', fontSize: '0.8rem' }}>{item.reason}</p>
           </div>
+          <Link to={`/admin/student/${item.studentId}`}>
+            <button style={{ background: 'none', border: 'none', color: '#52C5FF', cursor: 'pointer', fontWeight: 600 }}>
+              View Student
+            </button>
+          </Link>
           <div style={{
             display: 'flex',
             alignItems: 'center',
@@ -278,6 +283,39 @@ export default function AdminDashboard() {
         }}>
           <KPICard title="Total Students" value="2,847" icon={Users} trend="12% from last month" color="blue" />
           <KPICard title="Total Uploads" value="1,234" icon={FileUp} trend="8% from last week" color="gold" />
+        </div>
+
+        <div style={{ marginBottom: '1.5rem' }}>
+          <Link to="/admin/students">
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              style={{
+                width: '100%',
+                padding: '1rem',
+                background: 'white',
+                border: '1px solid #f1f5f9',
+                borderRadius: '16px',
+                boxShadow: '0 4px 12px rgba(0, 33, 71, 0.08)',
+                textAlign: 'left',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between'
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                <div style={{ width: '48px', height: '48px', background: 'rgba(82, 197, 255, 0.15)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Users color="#52C5FF" size={24} />
+                </div>
+                <div>
+                  <h3 style={{ fontSize: '1.125rem', fontWeight: 700, color: '#002147' }}>Manage Students</h3>
+                  <p style={{ color: '#64748b', fontSize: '0.875rem' }}>View, edit, and manage student accounts.</p>
+                </div>
+              </div>
+              <ChevronRight size={20} color="#94a3b8" />
+            </motion.button>
+          </Link>
         </div>
 
         <div style={{
