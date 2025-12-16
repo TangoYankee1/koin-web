@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { BookOpen, Users, FileUp, LogOut, Gem } from 'lucide-react';
+import { Users, FileUp, LogOut, Gem } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 
 const KPICard = ({ title, value, icon: Icon, trend }) => {
@@ -138,9 +138,7 @@ export default function AdminDashboard() {
       <header style={styles.header}>
         <div style={styles.headerContainer}>
           <div style={styles.logoContainer}>
-            <div style={styles.logoIconContainer}>
-              <BookOpen style={styles.logoIcon} />
-            </div>
+            <img src="/koin-logo.png" alt="Koin Logo" style={styles.logoImage} />
             <div>
               <h1 style={styles.logoTitle}>Koin</h1>
               <p style={styles.logoSubtitle}>Admin Portal</p>
@@ -205,19 +203,9 @@ const styles = {
     alignItems: 'center',
     gap: '0.75rem',
   },
-  logoIconContainer: {
-    width: '2.5rem',
-    height: '2.5rem',
-    backgroundColor: '#002147',
-    borderRadius: '0.75rem',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  logoIcon: {
-    width: '1.25rem',
-    height: '1.25rem',
-    color: '#56C1E8',
+  logoImage: {
+    height: '40px',
+    width: '40px',
   },
   logoTitle: {
     fontSize: '1.25rem',
