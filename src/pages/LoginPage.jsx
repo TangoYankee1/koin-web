@@ -7,6 +7,7 @@ import api from '../api/axios';
 
 export default function Auth() {
   const [isLogin, setIsLogin] = useState(true);
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
@@ -48,17 +49,31 @@ export default function Auth() {
   const handleRegister = async (role) => {
     setLoading(true);
     setError(null);
-    if (password !== passwordConfirmation) {
-      setError('Passwords do not match');
-      setLoading(false);
-      return;
-    }
     try {
-      await api.register(email, password, passwordConfirmation, role);
-      // After successful registration, switch to login view
-      setIsLogin(true);
+      const res = await api.post(
+        '/register',
+        {
+          name,
+          email,
+          password,
+          password_confirmation: passwordConfirmation,
+          role,
+        },
+        {
+          headers: { 'Content-Type': 'application/json' },
+        }
+      );
+
+      console.log('REGISTER SUCCESS:', res.data);
+      setIsLogin(true); // Switch to login view on success
     } catch (err) {
-      setError('Registration failed. Please try again.');
+      console.error('REGISTER ERROR:', err.response?.data);
+
+      setError(
+        err.response?.data?.message ||
+        JSON.stringify(err.response?.data?.errors) ||
+        'Registration failed'
+      );
     } finally {
       setLoading(false);
     }
@@ -142,6 +157,37 @@ export default function Auth() {
             boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
           }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+              {!isLogin && (
+                <div>
+                  <label style={{ 
+                    display: 'block', 
+                    color: '#002147', 
+                    fontWeight: 600, 
+                    marginBottom: '0.5rem',
+                    fontSize: '0.9rem'
+                  }}>
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Your Name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    style={{
+                      width: '100%',
+                      padding: '14px 16px',
+                      borderRadius: '10px',
+                      border: '2px solid #e2e8f0',
+                      fontSize: '1rem',
+                      transition: 'border-color 0.2s',
+                      outline: 'none',
+                      boxSizing: 'border-box'
+                    }}
+                    onFocus={(e) => e.target.style.borderColor = '#52C5FF'}
+                    onBlur={(e) => e.target.style.borderColor = '#e2e8f0'}
+                  />
+                </div>
+              )}
               <div>
                 <label style={{ 
                   display: 'block', 
