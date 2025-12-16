@@ -43,11 +43,15 @@ export default function Auth() {
         padding: isMobile ? '1rem' : '1.5rem 5%',
         display: 'flex',
         justifyContent: 'space-between',
-        alignItems: 'center'
+        alignItems: 'baseline',
+        height: '60px',
+        position: 'relative',
+        width: '100%'
       }}>
-        <Link to="/">
-          <img src="/koin-logo.png" alt="Koin Logo" style={{ height: isMobile ? '2rem' : '2.5rem' }} />
+        <Link to="/" style={{ position: 'absolute', left: '5%', top: '50%', transform: 'translateY(-50%)' }}>
+          <img src="/koin-logo.png" alt="Koin Logo" style={{ height: '12rem' }} />
         </Link>
+        <div style={{marginLeft: 'auto'}}>
         <Link to="/">
           <motion.button
             whileHover={{ scale: 1.02 }}
@@ -68,6 +72,7 @@ export default function Auth() {
             <ArrowLeft size={16} /> Back
           </motion.button>
         </Link>
+        </div>
       </header>
 
       <main style={{ 

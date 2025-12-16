@@ -84,12 +84,16 @@ export default function Plans() {
         padding: isMobile ? '0.75rem 1rem' : '1rem 5%',
         background: 'rgba(0, 33, 71, 0.95)',
         backdropFilter: 'blur(10px)',
-        borderBottom: '1px solid rgba(255,255,255,0.1)'
+        borderBottom: '1px solid rgba(255,255,255,0.1)',
+        height: '60px',
+        display: 'flex',
+        alignItems: 'center'
       }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <img src="/koin-logo.png" alt="Koin Logo" style={{ height: isMobile ? '2rem' : '2.5rem' }} />
+        <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', width: '100%', position: 'relative' }}>
+          <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', position: 'absolute', left: '5%', top: '50%', transform: 'translateY(-50%)' }}>
+            <img src="/koin-logo.png" alt="Koin Logo" style={{ height: '12rem' }} />
           </Link>
+          <div style={{marginLeft: 'auto'}}>
           <Link to="/">
             <motion.button
               whileHover={{ scale: 1.02 }}
@@ -110,6 +114,7 @@ export default function Plans() {
               <ArrowLeft size={16} /> Back
             </motion.button>
           </Link>
+          </div>
         </div>
       </header>
 

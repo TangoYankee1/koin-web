@@ -259,21 +259,26 @@ export default function StudentDashboard() {
         position: 'sticky',
         top: 0,
         zIndex: 50,
-        boxShadow: '0 1px 3px rgba(0,0,0,0.05)'
+        boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
+        height: '60px',
+        display: 'flex',
+        alignItems: 'center'
       }}>
         <div style={{ 
           maxWidth: '1280px', 
           margin: '0 auto', 
           padding: isMobile ? '0.875rem 1rem' : '1rem 2rem',
           display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between'
+          alignItems: 'baseline',
+          justifyContent: 'space-between',
+          width: '100%',
+          position: 'relative'
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <img src="/koin-logo.png" alt="Koin Logo" style={{ height: isMobile ? '2rem' : '2.5rem' }} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', position: 'absolute', left: '2rem', top: '50%', transform: 'translateY(-50%)' }}>
+            <img src="/koin-logo.png" alt="Koin Logo" style={{ height: '12rem' }} />
             {!isMobile && <h1 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#002147' }}>Student Dashboard</h1>}
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginLeft: 'auto' }}>
             <PointsBadge points={points} />
             <motion.button
               whileHover={{ scale: 1.05 }}

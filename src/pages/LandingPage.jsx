@@ -41,9 +41,10 @@ const LandingPage = () => {
         backdropFilter: 'blur(10px)', 
         borderBottom: '1px solid rgba(255,255,255,0.1)' 
       }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <img src="/koin-logo.png" alt="Koin Logo" style={{ height: isMobile ? '2rem' : '2.5rem' }} />
+        <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', alignItems: 'center', position: 'relative', height: '60px' }}>
+          <img src="/koin-logo.png" alt="Koin Logo" style={{ height: '12rem', position: 'absolute', left: 0, top: '50%', transform: 'translateY(-50%)' }} />
           
+          <div style={{ marginLeft: 'auto' }}>
           {isMobile ? (
             <>
               <button 
@@ -91,6 +92,7 @@ const LandingPage = () => {
               </Link>
             </nav>
           )}
+          </div>
         </div>
       </header>
 
@@ -218,7 +220,7 @@ const LandingPage = () => {
               borderRadius: '20px',
               padding: isMobile ? '1.5rem' : '2.5rem',
               border: '1px solid rgba(255,255,255,0.1)',
-              backdropFilter: 'blur(10px)',
+              backdropFilter: 'blur(10px)', 
               width: '100%',
               maxWidth: '450px'
             }}>
@@ -335,7 +337,7 @@ const LandingPage = () => {
           gap: isMobile ? '1rem' : '0',
           textAlign: isMobile ? 'center' : 'left'
         }}>
-          <img src="/koin-logo.png" alt="Koin Logo" style={{ height: '2rem', opacity: 0.8 }} />
+          <img src="/koin-logo.png" alt="Koin Logo" style={{ height: '2.5rem', opacity: 0.8 }} />
           <p style={{ color: 'white', opacity: 0.6, fontSize: '0.875rem' }}>© 2024 Koin. A sanctioned space for smarter study.</p>
         </div>
       </footer>
