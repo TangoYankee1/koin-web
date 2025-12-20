@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Check, X, ArrowLeft, Star, Zap, Crown } from 'lucide-react';
+import { Check, X, ArrowLeft, Star, Zap, Crown, ArrowRight } from 'lucide-react';
 
 const PLANS = [
   {
@@ -21,7 +21,7 @@ const PLANS = [
       'No Admin Analytics',
       'No LMS Integration',
     ],
-    cta: 'Start Free',
+    cta: <Link to="/">Start Free</Link>,
     highlighted: false,
     color: '#52C5FF'
   },
@@ -39,7 +39,7 @@ const PLANS = [
       'Full Moderation Tools',
       'Dedicated Onboarding & Support',
     ],
-    cta: 'Contact Sales',
+    cta: <Link to="/">Contact Sales</Link>,
     highlighted: true,
     color: '#FFC72C'
   },
@@ -57,13 +57,13 @@ const PLANS = [
       'Custom Data Reporting & API Access',
       'Dedicated Account Manager',
     ],
-    cta: 'Contact Sales',
+    cta: <Link to="/">Contact Sales</Link>,
     highlighted: false,
     color: '#a855f7'
   },
 ];
 
-export default function Plans() {
+export default function NewPlansPage() {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -91,10 +91,6 @@ export default function Plans() {
       }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', width: '100%', position: 'relative' }}>
           <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', position: 'absolute', left: '5%', top: '50%', transform: 'translateY(-50%)' }}>
-            <img src="/koin-logo.png" alt="Koin Logo" style={{ height: '12rem' }} />
-          </Link>
-          <div style={{marginLeft: 'auto'}}>
-          <Link to="/AdminDashboard">
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
@@ -111,10 +107,10 @@ export default function Plans() {
                 fontSize: '0.9rem'
               }}
             >
-              <ArrowLeft size={16} /> Back to Dashboard
+              <ArrowLeft size={16} /> Back
             </motion.button>
           </Link>
-          </div>
+
         </div>
       </header>
 
@@ -200,76 +196,51 @@ export default function Plans() {
                   )}
                 </div>
 
-                <div style={{ marginBottom: '1.5rem' }}>
-                  <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.8rem', marginBottom: '0.75rem', fontWeight: 600 }}>INCLUDES:</p>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                    {plan.features.map((feature, idx) => (
-                      <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-                        <Check color="#22c55e" size={18} style={{ flexShrink: 0, marginTop: '2px' }} />
-                        <span style={{ color: 'rgba(255,255,255,0.9)', fontSize: '0.9rem' }}>{feature}</span>
-                      </div>
+                <div style={{ flexGrow: 1, marginBottom: '2rem' }}>
+                  <ul style={{ listStyle: 'none', padding: 0, marginBottom: '1rem' }}>
+                    {plan.features.map((feature) => (
+                      <li key={feature} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem', color: 'rgba(255,255,255,0.9)' }}>
+                        <Check size={16} style={{ color: '#34D399' }} />
+                        <span>{feature}</span>
+                      </li>
                     ))}
-                  </div>
-                </div>
-
-                {plan.limitations && (
-                  <div style={{ marginBottom: '1.5rem' }}>
-                    <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.8rem', marginBottom: '0.75rem', fontWeight: 600 }}>LIMITATIONS:</p>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                      {plan.limitations.map((limitation, idx) => (
-                        <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                          <X color="#ef4444" size={16} style={{ flexShrink: 0 }} />
-                          <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.85rem' }}>{limitation}</span>
-                        </div>
+                  </ul>
+                  {plan.limitations && plan.limitations.length > 0 && (
+                    <ul style={{ listStyle: 'none', padding: 0, borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '1rem', marginTop: '1rem' }}>
+                      {plan.limitations.map((limitation) => (
+                        <li key={limitation} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem', color: 'rgba(255,255,255,0.6)' }}>
+                          <X size={16} style={{ color: '#F87171' }} />
+                          <span>{limitation}</span>
+                        </li>
                       ))}
-                    </div>
-                  </div>
-                )}
-
-                <div style={{ marginTop: 'auto' }}>
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    style={{
-                      width: '100%',
-                      padding: '14px',
-                      background: plan.highlighted ? '#FFC72C' : 'rgba(255,255,255,0.1)',
-                      color: plan.highlighted ? '#002147' : 'white',
-                      fontWeight: 700,
-                      borderRadius: '10px',
-                      border: plan.highlighted ? 'none' : '1px solid rgba(255,255,255,0.2)',
-                      cursor: 'pointer',
-                      fontSize: '1rem'
-                    }}
-                  >
-                    {plan.cta}
-                  </motion.button>
+                    </ul>
+                  )}
                 </div>
+
+                <motion.button
+                  whileHover={{ scale: 1.05, boxShadow: `0 0 20px ${plan.color}` }}
+                  whileTap={{ scale: 0.95 }}
+                  style={{
+                    background: plan.highlighted ? plan.color : 'transparent',
+                    color: plan.highlighted ? '#002147' : 'white',
+                    border: `2px solid ${plan.color}`,
+                    padding: '12px 24px',
+                    borderRadius: '12px',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    width: '100%',
+                    marginTop: 'auto'
+                  }}
+                >
+                  {plan.cta}
+                </motion.button>
               </motion.div>
             ))}
           </div>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-            style={{ textAlign: 'center', marginTop: '3rem' }}
-          >
-            <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.95rem' }}>
-              Need help choosing?{' '}
-              <a href="#" style={{ color: '#52C5FF', textDecoration: 'none', fontWeight: 600 }}>Contact our team</a>
-            </p>
-          </motion.div>
+
         </div>
       </main>
-
-      <footer style={{ padding: isMobile ? '1.5rem 1.25rem' : '2rem 5%', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
-          <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.875rem' }}>
-            © 2024 Koin. A sanctioned space for smarter study.
-          </p>
-        </div>
-      </footer>
     </div>
   );
 }

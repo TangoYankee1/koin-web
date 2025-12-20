@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Users, FileUp, LogOut, Gem, TrendingUp, AlertTriangle, CheckCircle, Clock } from 'lucide-react';
+import { Users, FileUp, LogOut, Gem, TrendingUp, AlertTriangle, CheckCircle, Clock, ChevronRight } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 
 const KPICard = ({ title, value, icon: Icon, trend, color }) => {
@@ -223,7 +223,7 @@ export default function AdminDashboard() {
             )}
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginLeft: 'auto' }}>
-            <Link to="/plans">
+            <Link to="/admin/plans">
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}

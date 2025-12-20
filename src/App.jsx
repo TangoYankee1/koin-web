@@ -8,6 +8,7 @@ import PlansPage from './pages/PlansPage';
 import LearnMorePage from './pages/LearnMorePage';
 import StudentManagementPage from './pages/StudentManagementPage';
 import StudentProfilePage from './pages/StudentProfilePage';
+import NewPlansPage from './pages/NewPlansPage';
 
 function App() {
   return (
@@ -19,7 +20,9 @@ function App() {
         <Route path="/AdminDashboard" element={<AdminDashboard />} />
         <Route path="/admin/students" element={<StudentManagementPage />} />
         <Route path="/admin/student/:studentId" element={<StudentProfilePage />} />
-        <Route path="/plans" element={<PlansPage />} />
+        <Route path="/admin/new-plans" element={<NewPlansPage />} />
+        <Route path="/plans" element={<NewPlansPage />} />
+        <Route path="/admin/plans" element={<PlansPage />} />
         <Route path="/learn-more" element={<LearnMorePage />} />
       </Routes>
     </Router>
